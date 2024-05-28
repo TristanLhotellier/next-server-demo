@@ -2,7 +2,7 @@ name: Deploy Flask app to Google Cloud Run
 
 on:
   push:
-    branches: []
+    branches: [main]
 
 env:
   app: flask
