@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: bookstackuser
+      POSTGRES_PASSWORD: bookstackpass
+      POSTGRES_DB: bookstack
+
+  app:
+    image: solidnerd/bookstack:latest
+    restart: unless-stopped
+    environment:
+      DB_HOST: db
+      DB_DATABASE: bookstack
+      DB_USERNAME: bookstackuser
+      DB_PASSWORD: bookstackpass
+      APP_URL: http://localhost:8080
+    volumes:
+      - uploads:/var/www/bookstack/public/uploads
+      - storage:/var/www/bookstack/storage/uploads
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+volumes:
+  db-volume:
+  uploads:
+  storage:
